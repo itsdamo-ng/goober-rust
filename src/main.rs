@@ -1,3 +1,5 @@
+mod dontscope;
+
 use actix_web::{web, App, HttpServer, HttpRequest, HttpResponse};
 use serde::{Deserialize, Serialize};
 use rusqlite::Connection;
@@ -338,6 +340,7 @@ async fn main() -> std::io::Result<()> {
             .route("/fetch", web::get().to(fetch_url))
             .route("/debug", web::get().to(debug_info))
             .route("/user/update", web::post().to(update_user))
+            .configure(dontscope::configure)
     })
     .bind("0.0.0.0:8080")?
     .run()
