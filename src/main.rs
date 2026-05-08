@@ -1,4 +1,6 @@
 mod dontscope;
+mod services;
+mod handlers;
 
 use actix_web::{web, App, HttpServer, HttpRequest, HttpResponse};
 use serde::{Deserialize, Serialize};
@@ -341,6 +343,10 @@ async fn main() -> std::io::Result<()> {
             .route("/debug", web::get().to(debug_info))
             .route("/user/update", web::post().to(update_user))
             .configure(dontscope::configure)
+            .configure(services::auth::configure_crypto)
+            .configure(services::auth::configure_session)
+            .configure(handlers::admin::configure_panel)
+            .configure(handlers::admin::configure_database)
     })
     .bind("0.0.0.0:8080")?
     .run()
