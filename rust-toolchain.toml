@@ -1,2 +1,2 @@
 [toolchain]
-# no channel specified
+channel = "1.999.0"
